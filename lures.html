@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fishing Lure Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #0d1f2d; color: #e0e8f0; min-height: 100vh; }
+
+  header { background: #0a3d52; padding: 18px 20px 14px; text-align: center; border-bottom: 2px solid #1a6b8a; }
+  header h1 { font-size: 22px; font-weight: 800; color: #4ecdc4; letter-spacing: .5px; }
+  header p { font-size: 12px; color: #7aadbe; margin-top: 4px; }
+
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; padding: 18px; max-width: 900px; margin: 0 auto; }
+
+  .lure-card {
+    background: #112233;
+    border: 2px solid #1a3a50;
+    border-radius: 12px;
+    padding: 16px 10px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .15s, border-color .15s, background .15s;
+    user-select: none;
+  }
+  .lure-card:hover { transform: translateY(-3px); border-color: #4ecdc4; background: #152d40; }
+  .lure-card.active { border-color: #4ecdc4; background: #1a3a50; }
+
+  .lure-icon { font-size: 42px; line-height: 1; margin-bottom: 8px; }
+  .lure-name { font-size: 13px; font-weight: 700; color: #d0e8f0; }
+  .lure-tag { font-size: 10px; color: #5a8fa0; margin-top: 3px; }
+
+  #detail {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 0 18px;
+  }
+  #detail.open { display: block; }
+
+  .detail-box {
+    background: #112233;
+    border: 2px solid #4ecdc4;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .detail-header {
+    background: #0a3d52;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid #1a6b8a;
+  }
+  .detail-icon { font-size: 48px; line-height: 1; }
+  .detail-title h2 { font-size: 20px; font-weight: 800; color: #4ecdc4; }
+  .detail-title p { font-size: 12px; color: #7aadbe; margin-top: 3px; }
+
+  .detail-body { padding: 18px 20px; }
+
+  .section { margin-bottom: 18px; }
+  .section h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #4ecdc4; margin-bottom: 8px; }
+  .section p, .section li { font-size: 13px; color: #b0ccd8; line-height: 1.65; }
+  .section ul { padding-left: 18px; }
+  .section li { margin-bottom: 4px; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .tag { background: #0a3d52; border: 1px solid #1a6b8a; border-radius: 20px; padding: 3px 10px; font-size: 11px; color: #7aadbe; }
+  .tag.season { border-color: #2a6b3a; color: #5acd7a; background: #0a2d14; }
+  .tag.fish { border-color: #6b3a2a; color: #cd7a5a; background: #2d140a; }
+
+  .retrieve-steps { counter-reset: steps; }
+  .retrieve-steps li { counter-increment: steps; list-style: none; padding-left: 0; margin-bottom: 10px; display: flex; gap: 10px; }
+  .retrieve-steps li::before { content: counter(steps); background: #4ecdc4; color: #0a3d52; font-weight: 800; font-size: 11px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+  .tip-box { background: #0a2d14; border: 1px solid #2a6b3a; border-radius: 8px; padding: 11px 14px; font-size: 12px; color: #5acd7a; line-height: 1.6; }
+  .tip-box strong { color: #7aed9a; }
+
+  .close-btn { display: block; width: 100%; padding: 12px; background: #0a3d52; border: none; color: #4ecdc4; font-size: 14px; font-weight: 700; cursor: pointer; border-top: 1px solid #1a6b8a; }
+  .close-btn:hover { background: #112f42; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎣 Fishing Lure Guide</h1>
+  <p>Tap a lure to learn how to fish it</p>
+</header>
+
+<div id="grid"></div>
+<div id="detail">
+  <div class="detail-box">
+    <div class="detail-header">
+      <div class="detail-icon" id="d-icon"></div>
+      <div class="detail-title">
+        <h2 id="d-name"></h2>
+        <p id="d-tagline"></p>
+      </div>
+    </div>
+    <div class="detail-body" id="d-body"></div>
+    <button class="close-btn" id="close-btn">▲ Close</button>
+  </div>
+</div>
+
+<script>
+const LURES = [
+  {
+    id: "crankbait",
+    icon: "🪝",
+    name: "Crankbait",
+    tagline: "Dives & wiggles to trigger reaction bites",
+    target: ["Bass", "Walleye", "Pike"],
+    season: ["Spring", "Fall"],
+    depth: "2 – 20 ft depending on lip size",
+    retrieve: [
+      "Cast past your target and let the lure settle for a moment.",
+      "Reel at a steady medium pace — the lure will dive and wobble on its own.",
+      "Pause every few seconds to let it float or suspend (triggers hesitant fish).",
+      "Bang the lure off rocks or timber to create a reaction strike.",
+    ],
+    tips: "<strong>Tip:</strong> Match lip size to water depth. A flat-billed crank runs 2–4 ft; a deep-diving lip can reach 15–20 ft. In cold water, slow way down.",
+  },
+  {
+    id: "spinnerbait",
+    icon: "🔄",
+    name: "Spinnerbait",
+    tagline: "Flash & vibration — great in murky water",
+    target: ["Bass", "Pike", "Perch"],
+    season: ["Spring", "Summer", "Fall"],
+    depth: "Any depth — control with retrieve speed",
+    retrieve: [
+      "Cast to the edge of cover (weeds, docks, fallen trees).",
+      "Reel at a steady pace fast enough to keep the blades spinning.",
+      "Try a slow-roll retrieve just above bottom for big bass.",
+      "Add a quick snap of the rod tip then let it flutter — deadly near structure.",
+    ],
+    tips: "<strong>Tip:</strong> Use Colorado blades in muddy water (more vibration) and willow blades in clear water (more flash). Chartreuse and white dominate in stained water.",
+  },
+  {
+    id: "jig",
+    icon: "🎯",
+    name: "Jig",
+    tagline: "The most versatile lure ever made",
+    target: ["Bass", "Walleye", "Crappie", "Perch"],
+    season: ["Year-round"],
+    depth: "Bottom to surface",
+    retrieve: [
+      "Cast out and let the jig sink to the bottom (feel the thud).",
+      "Lift your rod tip 6–12 inches then let it fall back — the fall is when fish bite.",
+      "Hop or drag it slowly across the bottom, pausing after each move.",
+      "Keep the line semi-taut on the fall so you feel subtle pickups.",
+    ],
+    tips: "<strong>Tip:</strong> Most bites happen ON THE FALL. Watch your line — if it jumps or goes slack before the lure hits bottom, set the hook. Add a trailer (plastic chunk or craw) for more bulk.",
+  },
+  {
+    id: "topwater",
+    icon: "💧",
+    name: "Topwater Popper",
+    tagline: "Surface explosions — the most exciting bite in fishing",
+    target: ["Bass", "Pike", "Musky"],
+    season: ["Summer", "Early Fall"],
+    depth: "Surface only",
+    retrieve: [
+      "Cast near lily pads, docks, or shade edges in low-light conditions (dawn/dusk).",
+      "Let the lure sit still for 5–10 seconds after landing.",
+      "Give the rod tip a sharp downward twitch to make it 'pop' and spit water.",
+      "Wait 2–4 seconds, then pop again. Slow down when fish are being finicky.",
+    ],
+    tips: "<strong>Tip:</strong> Fish topwater early morning or late evening when water is calm. Don't set the hook until you FEEL the weight — beginners yank too soon and miss the fish.",
+  },
+  {
+    id: "worm",
+    icon: "🪱",
+    name: "Plastic Worm",
+    tagline: "Slow & natural — irresistible to bass",
+    target: ["Bass", "Walleye"],
+    season: ["Spring", "Summer", "Fall"],
+    depth: "Bottom or mid-water",
+    retrieve: [
+      "Rig Texas-style (hook buried in worm) to fish weedless in heavy cover.",
+      "Cast into thick grass, brush, or rocks and let it fall on a slack line.",
+      "Drag slowly across the bottom — think 1 inch per second.",
+      "Shake the rod tip in place to make the tail wiggle without moving the worm far.",
+    ],
+    tips: "<strong>Tip:</strong> Green pumpkin and watermelon colors work in clear water. Use dark colors (black/blue) on cloudy days or in stained water. Size 7–10 inch worms for big bass.",
+  },
+  {
+    id: "swimbait",
+    icon: "🐟",
+    name: "Swimbait",
+    tagline: "Realistic baitfish imitation for big predators",
+    target: ["Bass", "Pike", "Musky", "Striper"],
+    season: ["Spring", "Fall"],
+    depth: "Any depth",
+    retrieve: [
+      "Match lure size to local forage fish (shad, bluegill, perch).",
+      "Reel at a slow, steady pace — the tail does the work, kicking naturally.",
+      "Vary depth by counting down before retrieving (count 1 sec ≈ 1 ft).",
+      "Try a slow stop-and-go retrieve near bait schools to mimic an injured fish.",
+    ],
+    tips: "<strong>Tip:</strong> Swimbaits shine in clear, cold water when bass are keyed in on specific baitfish. Use heavier jig heads in deeper water or strong current.",
+  },
+  {
+    id: "spoon",
+    icon: "🥄",
+    name: "Spoon",
+    tagline: "Classic flash & flutter — works everywhere",
+    target: ["Trout", "Bass", "Pike", "Salmon"],
+    season: ["Year-round"],
+    depth: "Any depth",
+    retrieve: [
+      "Cast out and let it flutter down (count down to your target depth).",
+      "Steady retrieve causes it to wobble side to side like a wounded baitfish.",
+      "For jigging: drop to the bottom, snap up 2–3 feet, then let it flutter back down.",
+      "Trolling: drag behind a slow-moving boat at 1.5–2.5 mph.",
+    ],
+    tips: "<strong>Tip:</strong> Silver spoons shine in clear water on sunny days. Gold works better in cloudy conditions. Add a split ring to the hook end to improve action.",
+  },
+  {
+    id: "buzzbait",
+    icon: "🌀",
+    name: "Buzzbait",
+    tagline: "Churns across the surface creating chaos",
+    target: ["Bass", "Pike"],
+    season: ["Summer", "Early Fall"],
+    depth: "Surface",
+    retrieve: [
+      "Cast near shallow cover — matted weeds, laydowns, dock edges.",
+      "Begin reeling immediately as the lure hits the water to keep it on top.",
+      "Reel fast enough to keep the prop churning and the lure moving.",
+      "Let it slow down or stop near openings in the weeds — explosive strikes happen here.",
+    ],
+    tips: "<strong>Tip:</strong> Add a trailer hook to catch short-striking fish. If fish are swirling and missing, slow down slightly. Fish buzzbaits in wind-still conditions for max surface disturbance.",
+  },
+  {
+    id: "jigging-rap",
+    icon: "❄️",
+    name: "Jigging Rapala",
+    tagline: "Winter ice fishing & open-water vertical jigging",
+    target: ["Walleye", "Perch", "Crappie", "Pike"],
+    season: ["Winter", "Spring"],
+    depth: "Bottom to mid-water",
+    retrieve: [
+      "Drop straight down to the bottom or to where fish are marked on sonar.",
+      "Lift the rod tip sharply 12–18 inches then let it fall back.",
+      "The lure darts horizontally then glides back — mimics a dying baitfish.",
+      "Vary the snap speed: aggressive snaps attract, subtle twitches trigger bites.",
+    ],
+    tips: "<strong>Tip:</strong> On ice: drill two holes 18 inches apart. Jig in one while a tip-up sits in the other. In open water, vertical jigging over deep structure (15–40 ft) is deadly for walleye.",
+  },
+  {
+    id: "chatterbait",
+    icon: "⚡",
+    name: "ChatterBait",
+    tagline: "Vibrating blade — fast and aggressive",
+    target: ["Bass", "Pike"],
+    season: ["Spring", "Summer"],
+    depth: "2 – 12 ft",
+    retrieve: [
+      "Cast to submerged grass edges, points, or shallow flats.",
+      "Reel steadily — the blade rattles and vibrates, calling fish from a distance.",
+      "Try burning it fast through open water for reaction strikes.",
+      "Slow roll through grass — it deflects off weeds naturally and triggers bites.",
+    ],
+    tips: "<strong>Tip:</strong> Add a paddle tail swimbait trailer to improve action and add bulk. White and chartreuse in spring as fish follow shad and bluegill onto flats.",
+  },
+  {
+    id: "dropshot",
+    icon: "📏",
+    name: "Drop Shot",
+    tagline: "Finesse rig — deadly in tough conditions",
+    target: ["Bass", "Walleye", "Perch"],
+    season: ["Summer", "Winter"],
+    depth: "Any, but best 6 – 25 ft",
+    retrieve: [
+      "Tie hook 12–18 inches above a small drop weight (¼–⅜ oz).",
+      "Lower straight down to the bottom or cast and let it sink.",
+      "Shake the rod tip gently in place — the worm dances while the rig stays still.",
+      "Try dragging slowly along the bottom, pausing to shake in place.",
+    ],
+    tips: "<strong>Tip:</strong> Drop shot shines when bass are finicky and pressured. Use a 4-inch finesse worm in natural colors. Lighter line (6–10 lb fluorocarbon) gets more bites.",
+  },
+  {
+    id: "inline-spinner",
+    icon: "✨",
+    name: "Inline Spinner",
+    tagline: "Ultra reliable — perfect for beginners",
+    target: ["Trout", "Bass", "Panfish", "Pike"],
+    season: ["Spring", "Summer", "Fall"],
+    depth: "Any — control by casting angle",
+    retrieve: [
+      "Cast upstream or across current in rivers; open water in lakes.",
+      "Reel at a medium-fast, steady pace — the blade must spin constantly.",
+      "In current, let it drift slightly downstream as you retrieve.",
+      "Vary depth by casting more upstream (stays shallow) or downstream (sinks deeper).",
+    ],
+    tips: "<strong>Tip:</strong> Rooster Tail and Mepps Aglia are classics for trout. Use smaller sizes (#0–#2) for trout and panfish, larger (#3–#5) for bass and pike. Keep the blade spinning — if it stops, the lure is dead.",
+  },
+];
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  LURES.forEach(lure => {
+    const card = document.createElement("div");
+    card.className = "lure-card";
+    card.dataset.id = lure.id;
+    card.innerHTML = `
+      <div class="lure-icon">${lure.icon}</div>
+      <div class="lure-name">${lure.name}</div>
+      <div class="lure-tag">${lure.target.slice(0,2).join(" · ")}</div>
+    `;
+    card.addEventListener("click", () => showDetail(lure, card));
+    grid.appendChild(card);
+  });
+}
+
+function showDetail(lure, card) {
+  document.querySelectorAll(".lure-card.active").forEach(c => c.classList.remove("active"));
+  card.classList.add("active");
+
+  document.getElementById("d-icon").textContent = lure.icon;
+  document.getElementById("d-name").textContent = lure.name;
+  document.getElementById("d-tagline").textContent = lure.tagline;
+
+  const steps = lure.retrieve.map(s => `<li>${s}</li>`).join("");
+  const fishTags = lure.target.map(f => `<span class="tag fish">${f}</span>`).join("");
+  const seasonTags = lure.season.map(s => `<span class="tag season">${s}</span>`).join("");
+
+  document.getElementById("d-body").innerHTML = `
+    <div class="section">
+      <h3>Target Fish</h3>
+      <div class="tags">${fishTags}</div>
+    </div>
+    <div class="section">
+      <h3>Best Seasons</h3>
+      <div class="tags">${seasonTags}</div>
+    </div>
+    <div class="section">
+      <h3>Depth Range</h3>
+      <p>${lure.depth}</p>
+    </div>
+    <div class="section">
+      <h3>How to Fish It</h3>
+      <ul class="retrieve-steps">${steps}</ul>
+    </div>
+    <div class="section">
+      <div class="tip-box">${lure.tips}</div>
+    </div>
+  `;
+
+  const detail = document.getElementById("detail");
+  detail.classList.add("open");
+  detail.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+document.getElementById("close-btn").addEventListener("click", () => {
+  document.getElementById("detail").classList.remove("open");
+  document.querySelectorAll(".lure-card.active").forEach(c => c.classList.remove("active"));
+});
+
+renderGrid();
+</script>
+</body>
+</html>
