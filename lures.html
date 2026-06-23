@@ -10,17 +10,16 @@
   header { background: #1a3a50; padding: 16px 20px; text-align: center; }
   header h1 { font-size: 22px; font-weight: 900; color: #fff; }
   header p { font-size: 12px; color: #7aadbe; margin-top: 3px; }
-  .lure-card { background: #fff; margin-bottom: 10px; cursor: pointer; }
+  .lure-card { background: #fff; margin-bottom: 10px; }
   .lure-img-box {
     width: 100%; background: #fff; display: flex; align-items: center;
-    justify-content: center; padding: 28px 16px 18px;
-    border-bottom: 1px solid #e8eef3; min-height: 180px;
+    justify-content: center; padding: 32px 24px 24px; min-height: 200px;
   }
-  .lure-emoji { font-size: 100px; text-align: center; line-height: 1; }
+  .lure-img-box svg { width: 100%; max-width: 380px; height: auto; display: block; }
   .lure-label {
     background: #fff; padding: 13px 16px 15px;
     display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 2px solid #e8eef3;
+    border-top: 1px solid #e8eef3; border-bottom: 2px solid #e8eef3; cursor: pointer;
   }
   .lure-label h2 { font-size: 21px; font-weight: 900; color: #000; }
   .lure-label p { font-size: 12px; color: #5a7a8a; margin-top: 3px; }
@@ -54,86 +53,659 @@
 <div id="cards"></div>
 <script>
 const LURES = [
-  { name:"Crankbait", tagline:"Dives and wobbles — triggers reaction strikes", emoji:"🪝",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+crankbait+for+bass",
-    target:["Bass","Walleye","Pike"], season:["Spring","Fall"], depth:"2–20 ft depending on lip size",
-    steps:["Cast past your target and let the lure settle.","Reel at a steady medium pace — the lip makes it dive and wobble on its own.","Pause every few seconds to let it float up and trigger hesitant fish.","Bang it off rocks or wood cover to cause sudden reaction strikes."],
-    tip:"Match lip size to depth. Flat lip = 2–4 ft. Big lip = 15–20 ft. In cold water slow way down." },
-  { name:"Spinnerbait", tagline:"Flash and vibration — deadly in murky water", emoji:"🔄",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+spinnerbait",
-    target:["Bass","Pike","Perch"], season:["Spring","Summer","Fall"], depth:"Any depth",
-    steps:["Cast to the edge of cover — weeds, docks, fallen trees.","Reel steadily fast enough to keep the blades spinning.","Try a slow-roll retrieve just above the bottom for big bass.","Snap the rod tip then let it flutter — deadly near structure."],
-    tip:"Colorado blades in muddy water for vibration. Willow blades in clear water for flash. Chartreuse and white in stained water." },
-  { name:"Jig", tagline:"The most versatile lure ever made", emoji:"🎯",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+bass+jig",
-    target:["Bass","Walleye","Crappie","Perch"], season:["Year-round"], depth:"Bottom to surface",
-    steps:["Cast out and let it sink all the way to the bottom.","Lift your rod tip 6–12 inches then let it fall back — the fall is when fish bite.","Hop or drag it slowly across the bottom pausing after each move.","Keep line semi-taut on the fall so you feel subtle pickups."],
-    tip:"Most bites happen ON THE FALL. If your line jumps or goes slack before hitting bottom set the hook immediately." },
-  { name:"Topwater Popper", tagline:"Surface explosions — most exciting bite in fishing", emoji:"💧",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+topwater+popper",
-    target:["Bass","Pike","Musky"], season:["Summer","Early Fall"], depth:"Surface only",
-    steps:["Cast near lily pads, docks, or shaded banks at dawn or dusk.","Let it sit completely still for 5–10 seconds after it lands.","Twitch the rod tip sharply downward to make it pop and spit water.","Wait 2–4 seconds then pop again. Slow down when fish are finicky."],
-    tip:"Do not set the hook until you FEEL the weight of the fish. Beginners yank on the splash and miss it." },
-  { name:"Plastic Worm", tagline:"Slow and natural — irresistible to bass", emoji:"🪱",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+texas+rig+plastic+worm",
-    target:["Bass","Walleye"], season:["Spring","Summer","Fall"], depth:"Bottom or mid-water",
-    steps:["Rig Texas-style with the hook tip buried inside the worm so it is weedless.","Cast into thick grass, brush piles, or rocky areas and let it fall slowly.","Drag it across the bottom at about 1 inch per second.","Shake the rod tip in place to wiggle the tail without moving it far."],
-    tip:"Green pumpkin and watermelon in clear water. Black and blue on cloudy days or stained water. 7–10 inch for big bass." },
-  { name:"Swimbait", tagline:"Lifelike baitfish — fools big predators", emoji:"🐟",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+swimbait+for+bass",
-    target:["Bass","Pike","Musky","Striper"], season:["Spring","Fall"], depth:"Any depth",
-    steps:["Match lure size to local baitfish — shad, bluegill, or perch.","Reel at a slow, steady pace — the tail kicks naturally on its own.","Count down after casting to reach depth (1 second equals 1 foot).","Try stop-and-go near baitfish schools to mimic an injured fish."],
-    tip:"Swimbaits shine in cold, clear water. Use heavier jig heads in deeper water or strong current." },
-  { name:"Spoon", tagline:"Classic flash and flutter — works everywhere", emoji:"🥄",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+fishing+spoon",
-    target:["Trout","Bass","Pike","Salmon"], season:["Year-round"], depth:"Any depth",
-    steps:["Cast and let it flutter down, counting to your target depth.","Reel steadily — it wobbles side to side like a wounded baitfish.","For jigging: drop to bottom, snap up 2–3 feet, let it flutter back down.","Trolling: drag behind a slow boat at 1.5–2.5 mph."],
-    tip:"Silver in clear sunny water. Gold in cloudy conditions. Add a split ring to the hook end for better action." },
-  { name:"Buzzbait", tagline:"Churns the surface — chaos in the shallows", emoji:"🌀",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+buzzbait+for+bass",
-    target:["Bass","Pike"], season:["Summer","Early Fall"], depth:"Surface",
-    steps:["Cast near shallow cover — matted weeds, laydowns, or dock edges.","Start reeling the instant it hits the water to keep it on top.","Reel fast enough to keep the prop churning the surface.","Slow near openings in the weeds — that is where strikes explode."],
-    tip:"Add a trailer hook to catch fish that swipe and miss. Fish in calm conditions for maximum surface disturbance." },
-  { name:"Hollow Body Frog", tagline:"Walks over thick weeds fish cannot resist", emoji:"🐸",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+hollow+body+frog+lure",
-    target:["Bass","Pike","Musky"], season:["Summer"], depth:"Surface — lily pads and matted grass",
-    steps:["Cast onto the thickest nastiest weed mats you can find.","Twitch the rod tip left and right to walk the frog side to side.","Pause over any open pockets in the weeds for 3–5 seconds.","When the water explodes wait a full second before setting the hook hard."],
-    tip:"Use 50–65 lb braid — you need power to muscle fish out of thick weeds. Set the hook sideways, not straight up." },
-  { name:"Ned Rig", tagline:"Tiny finesse bait — impossible for bass to ignore", emoji:"📍",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+ned+rig+for+bass",
-    target:["Bass","Walleye","Smallmouth"], season:["Summer","Winter"], depth:"Bottom — any depth",
-    steps:["Use a small mushroom jig head (1/15–1/4 oz) with a short ElaZtech stick bait.","Cast out and let it sink — it stands straight up on the bottom naturally.","Drag it very slowly, letting it stand back up after each pull.","Shake gently in place — the standing tail drives fish crazy."],
-    tip:"The Ned Rig is your best friend when nothing else works. Light 6–8 lb fluorocarbon and a spinning rod get the most bites." },
-  { name:"Senko Wacky Rig", tagline:"Slow-fall stick bait — ridiculously effective", emoji:"🎋",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+senko+wacky+rig+for+bass",
-    target:["Bass"], season:["Spring","Summer","Fall"], depth:"Any — shallows to 20 ft",
-    steps:["Hook through the middle of the worm with no weight (wacky style).","Cast near docks, laydowns, or beds and let it sink on slack line.","Both ends wiggle and flutter as it falls — that is what triggers bites.","Barely twitch it on the bottom — most bites come on the fall with no added action."],
-    tip:"Use an O-ring on the worm middle to thread the hook through — this saves the worm from tearing on every fish." },
-  { name:"Drop Shot", tagline:"Finesse rig — deadly when fish are stubborn", emoji:"📏",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+drop+shot+rig",
-    target:["Bass","Walleye","Perch"], season:["Summer","Winter"], depth:"6–25 ft",
-    steps:["Tie hook 12–18 inches above a small drop weight (1/4–3/8 oz).","Lower straight down to the bottom or cast and let it sink.","Shake the rod tip gently — the worm dances while the rig stays in place.","Drag slowly along the bottom, pausing to shake every few feet."],
-    tip:"Drop shot is the best tough-bite lure there is. Use 6–10 lb fluorocarbon and natural colors in clear water." },
-  { name:"Inline Spinner", tagline:"Dead simple — great for beginners and trout", emoji:"✨",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+an+inline+spinner+for+trout+bass",
-    target:["Trout","Bass","Panfish","Pike"], season:["Spring","Summer","Fall"], depth:"Any depth",
-    steps:["Cast upstream or across current in rivers. Open water in lakes.","Reel at a medium-fast steady pace — the blade must spin the whole time.","In current let it drift downstream slightly as you retrieve.","Cast upstream to stay shallow. Cast downstream to sink deeper."],
-    tip:"If the blade stops spinning the lure is dead — reel faster. Sizes 0–2 for trout and panfish, 3–5 for bass and pike." },
-  { name:"ChatterBait", tagline:"Vibrating blade — fast and aggressive", emoji:"⚡",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+chatterbait+for+bass",
-    target:["Bass","Pike"], season:["Spring","Summer"], depth:"2–12 ft",
-    steps:["Cast to submerged grass edges, points, or shallow flats.","Reel steadily — the blade bangs and vibrates calling fish from far away.","Burn it fast through open water for reaction strikes.","Slow roll through grass — it deflects off weeds and triggers bites."],
-    tip:"Add a paddle tail swimbait trailer for more action. White and chartreuse dominate in spring when fish follow shad." },
-  { name:"Carolina Rig", tagline:"Covers water fast — great for finding fish", emoji:"⚓",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+carolina+rig+for+bass",
-    target:["Bass","Walleye","Catfish"], season:["Summer","Fall"], depth:"Bottom — 8–25 ft",
-    steps:["Thread a 1/2–1 oz bullet sinker on main line then add a bead and tie a swivel.","Attach 18–24 inch leader to the swivel then tie on your hook and plastic bait.","Cast far out to deep structure — points, humps, or channel edges.","Drag slowly across the bottom and feel for changes in the bottom type."],
-    tip:"The bead clicking against the sinker creates noise that attracts fish. Target transition zones where sand meets gravel or mud meets rock." },
-  { name:"Jigging Spoon", tagline:"Vertical jigging — a winter walleye killer", emoji:"❄️",
-    video:"https://www.youtube.com/results?search_query=how+to+fish+a+jigging+spoon+for+walleye+ice+fishing",
-    target:["Walleye","Perch","Crappie","Pike"], season:["Winter","Spring"], depth:"Bottom — 10–40 ft",
-    steps:["Drop straight down to where fish show on sonar or to the bottom.","Snap the rod tip up sharply 12–18 inches then let it free fall back down.","The lure darts sideways then flutters — mimics a dying baitfish perfectly.","Vary the snap: aggressive to attract fish, subtle twitch to trigger the bite."],
-    tip:"Most bites happen as it flutters back down. Keep just enough tension to feel the tap — do not let it go completely slack." },
+  {
+    name: "Crankbait",
+    tagline: "Dives and wobbles — triggers reaction strikes",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+crankbait+for+bass",
+    target: ["Bass","Walleye","Pike"], season: ["Spring","Fall"],
+    depth: "2–20 ft depending on lip size",
+    steps: ["Cast past your target and let the lure settle.","Reel at a steady medium pace — the lip makes it dive and wobble on its own.","Pause every few seconds to let it float up and trigger hesitant fish.","Bang it off rocks or wood cover to cause sudden reaction strikes."],
+    tip: "Match lip size to depth. Flat lip = 2–4 ft. Big lip = 15–20 ft. In cold water slow way down.",
+    svg: `<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- tail fin -->
+  <path d="M232,52 L268,30 L265,120 L232,98 Z" fill="#e87d2a" stroke="#c05a10" stroke-width="1.5"/>
+  <!-- body -->
+  <ellipse cx="150" cy="75" rx="88" ry="35" fill="#f5a623"/>
+  <!-- belly -->
+  <ellipse cx="150" cy="86" rx="80" ry="20" fill="#fde3b0" opacity="0.8"/>
+  <!-- back stripe -->
+  <path d="M72,62 Q130,48 225,62" stroke="#c05a10" stroke-width="4" fill="none" opacity="0.6"/>
+  <!-- lateral line dots -->
+  <path d="M100,75 Q150,70 210,75" stroke="#c05a10" stroke-width="1.2" stroke-dasharray="4,4" fill="none"/>
+  <!-- lip/bill -->
+  <path d="M63,80 L42,105" stroke="#d4d4d4" stroke-width="6" stroke-linecap="round"/>
+  <path d="M63,80 L42,105" stroke="#aaa" stroke-width="4" stroke-linecap="round"/>
+  <!-- dorsal fin -->
+  <path d="M145,42 Q165,18 182,28 Q175,42 162,42 Z" fill="#e87d2a" stroke="#c05a10" stroke-width="1"/>
+  <!-- pectoral fin -->
+  <ellipse cx="105" cy="88" rx="15" ry="7" fill="#f5a623" stroke="#c05a10" stroke-width="1" transform="rotate(-30,105,88)"/>
+  <!-- eye -->
+  <circle cx="88" cy="68" r="9" fill="white" stroke="#333" stroke-width="1.5"/>
+  <circle cx="88" cy="68" r="5.5" fill="#111"/>
+  <circle cx="86" cy="66" r="2" fill="white"/>
+  <!-- front hook split ring -->
+  <circle cx="118" cy="110" r="4" fill="none" stroke="#888" stroke-width="1.8"/>
+  <!-- front treble -->
+  <line x1="118" y1="114" x2="118" y2="128" stroke="#999" stroke-width="1.5"/>
+  <path d="M112,128 Q109,136 106,142" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M124,128 Q127,136 130,142" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M118,128 Q118,137 118,143" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- rear hook split ring -->
+  <circle cx="185" cy="108" r="4" fill="none" stroke="#888" stroke-width="1.8"/>
+  <!-- rear treble -->
+  <line x1="185" y1="112" x2="185" y2="126" stroke="#999" stroke-width="1.5"/>
+  <path d="M179,126 Q176,134 173,140" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M191,126 Q194,134 197,140" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M185,126 Q185,135 185,141" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Spinnerbait",
+    tagline: "Flash and vibration — deadly in murky water",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+spinnerbait",
+    target: ["Bass","Pike","Perch"], season: ["Spring","Summer","Fall"],
+    depth: "Any depth — controlled by retrieve speed",
+    steps: ["Cast to the edge of cover — weeds, docks, fallen trees.","Reel steadily fast enough to keep the blades spinning.","Try a slow-roll retrieve just above the bottom for big bass.","Snap the rod tip then let it flutter — deadly near structure."],
+    tip: "Colorado blades in muddy water for vibration. Willow blades in clear water for flash. Chartreuse and white in stained water.",
+    svg: `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- upper arm wire -->
+  <line x1="70" y1="155" x2="200" y2="50" stroke="#bbb" stroke-width="3" stroke-linecap="round"/>
+  <!-- lower arm wire -->
+  <line x1="70" y1="155" x2="120" y2="185" stroke="#bbb" stroke-width="3" stroke-linecap="round"/>
+  <!-- willow blade -->
+  <ellipse cx="215" cy="42" rx="14" ry="28" fill="url(#silver)" stroke="#aaa" stroke-width="1.5" transform="rotate(-30,215,42)"/>
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e8e8e8"/>
+      <stop offset="40%" stop-color="#fff"/>
+      <stop offset="100%" stop-color="#b0b0b0"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c8a040"/>
+      <stop offset="50%" stop-color="#ffd060"/>
+      <stop offset="100%" stop-color="#a07820"/>
+    </linearGradient>
+  </defs>
+  <!-- blade shine line -->
+  <line x1="208" y1="28" x2="210" y2="56" stroke="white" stroke-width="1.5" opacity="0.7" transform="rotate(-30,215,42)"/>
+  <!-- blade swivel -->
+  <circle cx="200" cy="52" r="4" fill="#999" stroke="#777" stroke-width="1"/>
+  <!-- jig head -->
+  <ellipse cx="80" cy="158" rx="18" ry="16" fill="#e8362a" stroke="#b02010" stroke-width="1.5"/>
+  <!-- eye on jig head -->
+  <circle cx="74" cy="153" r="4" fill="white" stroke="#333" stroke-width="1"/>
+  <circle cx="74" cy="153" r="2.5" fill="#111"/>
+  <!-- hook -->
+  <path d="M88,170 Q110,180 115,195 Q120,205 115,208 Q108,210 105,200" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- hook point -->
+  <path d="M105,200 Q100,198 98,193" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- skirt strands -->
+  <g opacity="0.9">
+    <path d="M70,170 Q60,185 55,200" stroke="#c8e82a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M73,172 Q62,188 58,205" stroke="#c8e82a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M76,173 Q68,190 65,207" stroke="#c8e82a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M79,173 Q74,191 72,208" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M82,172 Q80,191 79,208" stroke="#c8e82a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M85,171 Q86,190 86,207" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M88,170 Q93,188 95,205" stroke="#c8e82a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M90,169 Q98,186 102,202" stroke="#c8e82a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>`
+  },
+  {
+    name: "Jig",
+    tagline: "The most versatile lure ever made",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+bass+jig",
+    target: ["Bass","Walleye","Crappie","Perch"], season: ["Year-round"],
+    depth: "Bottom to surface — any depth",
+    steps: ["Cast out and let it sink all the way to the bottom.","Lift your rod tip 6–12 inches then let it fall back — the fall is when fish bite.","Hop or drag it slowly across the bottom pausing after each move.","Keep line semi-taut on the fall so you feel subtle pickups."],
+    tip: "Most bites happen ON THE FALL. If your line jumps or goes slack before hitting bottom set the hook immediately.",
+    svg: `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- jig head -->
+  <ellipse cx="140" cy="90" rx="36" ry="34" fill="#1a1a2e" stroke="#333" stroke-width="1.5"/>
+  <!-- paint chip highlight -->
+  <ellipse cx="128" cy="80" rx="12" ry="10" fill="#2a2a4a" opacity="0.6"/>
+  <!-- collar -->
+  <ellipse cx="172" cy="92" rx="10" ry="12" fill="#333" stroke="#222" stroke-width="1"/>
+  <!-- eye -->
+  <circle cx="122" cy="85" r="8" fill="white" stroke="#555" stroke-width="1"/>
+  <circle cx="122" cy="85" r="5" fill="red"/>
+  <circle cx="120" cy="83" r="2" fill="white"/>
+  <!-- hook -->
+  <path d="M175,92 Q230,92 240,75 Q248,60 238,50 Q225,42 212,52" stroke="#888" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M212,52 Q204,46 200,42" stroke="#888" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- hook point barb -->
+  <path d="M200,42 Q195,48 198,54" stroke="#888" stroke-width="2" fill="none"/>
+  <!-- skirt strands - black and blue -->
+  <g>
+    <path d="M162,100 Q148,120 140,145" stroke="#1a1a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M164,102 Q152,123 146,150" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M166,103 Q158,125 154,152" stroke="#1a1a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M168,103 Q163,126 162,153" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M170,102 Q168,125 170,152" stroke="#1a1a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M172,101 Q174,123 178,150" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M174,100 Q180,121 186,148" stroke="#1a1a8a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M175,99 Q184,119 192,145" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- craw trailer -->
+  <path d="M155,148 Q148,160 140,170 Q132,162 128,152" stroke="#5a3010" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M140,170 Q135,180 128,185 Q120,178 118,170" stroke="#5a3010" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M140,170 Q145,180 152,185 Q160,178 162,170" stroke="#5a3010" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Topwater Popper",
+    tagline: "Surface explosions — most exciting bite in fishing",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+topwater+popper",
+    target: ["Bass","Pike","Musky"], season: ["Summer","Early Fall"],
+    depth: "Surface only",
+    steps: ["Cast near lily pads, docks, or shaded banks at dawn or dusk.","Let it sit completely still for 5–10 seconds after it lands.","Twitch the rod tip sharply downward to make it pop and spit water.","Wait 2–4 seconds then pop again. Slow down when fish are finicky."],
+    tip: "Do not set the hook until you FEEL the weight of the fish. Beginners yank on the splash and miss it.",
+    svg: `<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- body -->
+  <path d="M55,75 Q58,42 90,38 L240,38 Q268,38 268,75 Q268,112 240,112 L90,112 Q58,112 55,75 Z" fill="#f5f5f5" stroke="#ddd" stroke-width="1.5"/>
+  <!-- red head -->
+  <path d="M55,75 Q58,42 90,38 L115,38 L115,112 L90,112 Q58,112 55,75 Z" fill="#e82020"/>
+  <!-- cupped mouth -->
+  <path d="M55,75 Q50,65 48,75 Q50,85 55,75 Z" fill="#c00"/>
+  <!-- back pattern stripes -->
+  <line x1="140" y1="38" x2="140" y2="112" stroke="#e0e0e0" stroke-width="1.5"/>
+  <line x1="170" y1="38" x2="170" y2="112" stroke="#e0e0e0" stroke-width="1.5"/>
+  <line x1="200" y1="38" x2="200" y2="112" stroke="#e0e0e0" stroke-width="1.5"/>
+  <!-- belly darker -->
+  <path d="M115,105 Q180,118 240,112 L240,112 Q268,112 268,75" stroke="#ddd" stroke-width="1" fill="#e8e8e8" opacity="0.4"/>
+  <!-- tail hook ring -->
+  <circle cx="262" cy="75" r="5" fill="none" stroke="#aaa" stroke-width="2"/>
+  <!-- eye -->
+  <circle cx="82" cy="66" r="8" fill="white" stroke="#333" stroke-width="1.5"/>
+  <circle cx="82" cy="66" r="5" fill="#111"/>
+  <circle cx="80" cy="64" r="2" fill="white"/>
+  <!-- front hook ring -->
+  <circle cx="120" cy="112" r="4" fill="none" stroke="#aaa" stroke-width="1.8"/>
+  <!-- front treble -->
+  <line x1="120" y1="116" x2="120" y2="130" stroke="#999" stroke-width="1.5"/>
+  <path d="M114,130 Q111,138 108,144" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M126,130 Q129,138 132,144" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M120,130 Q120,139 120,145" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- rear treble -->
+  <line x1="262" y1="80" x2="262" y2="94" stroke="#999" stroke-width="1.5"/>
+  <path d="M256,94 Q253,102 250,108" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M268,94 Q271,102 274,108" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M262,94 Q262,103 262,109" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- water splash dots -->
+  <circle cx="35" cy="60" r="3" fill="#aadcf0" opacity="0.7"/>
+  <circle cx="28" cy="50" r="2" fill="#aadcf0" opacity="0.5"/>
+  <circle cx="42" cy="45" r="2.5" fill="#aadcf0" opacity="0.6"/>
+  <circle cx="22" cy="68" r="2" fill="#aadcf0" opacity="0.5"/>
+</svg>`
+  },
+  {
+    name: "Plastic Worm",
+    tagline: "Slow and natural — irresistible to bass",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+texas+rig+plastic+worm",
+    target: ["Bass","Walleye"], season: ["Spring","Summer","Fall"],
+    depth: "Bottom or mid-water",
+    steps: ["Rig Texas-style with the hook tip buried inside the worm so it is weedless.","Cast into thick grass, brush piles, or rocky areas and let it fall slowly.","Drag it across the bottom at about 1 inch per second.","Shake the rod tip in place to wiggle the tail without moving it far."],
+    tip: "Green pumpkin and watermelon in clear water. Black and blue on cloudy days or stained water. 7–10 inch for big bass.",
+    svg: `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- bullet weight -->
+  <path d="M42,72 L55,62 L55,88 Z" fill="#888" stroke="#666" stroke-width="1"/>
+  <!-- line through weight -->
+  <line x1="40" y1="75" x2="58" y2="75" stroke="#ccc" stroke-width="1.5"/>
+  <!-- worm body - S curve -->
+  <path d="M58,75 Q80,75 90,65 Q110,48 140,52 Q170,56 185,70 Q200,84 220,82 Q248,78 270,68" 
+        stroke="#4a7c3f" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <!-- worm highlight -->
+  <path d="M58,70 Q80,70 90,60 Q110,44 140,48 Q170,52 185,65 Q200,78 220,77 Q248,73 270,64" 
+        stroke="#6aac5a" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- tail curl -->
+  <path d="M270,68 Q285,62 290,70 Q288,80 278,76" stroke="#4a7c3f" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- worm segments (subtle) -->
+  <path d="M78,75 Q80,72 82,75" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M95,66 Q97,63 99,66" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M115,55 Q117,52 119,55" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M140,52 Q142,49 144,52" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M165,58 Q167,55 169,58" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M188,72 Q190,69 192,72" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M210,83 Q212,80 214,83" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <path d="M240,80 Q242,77 244,80" stroke="#3a6c2f" stroke-width="1" fill="none"/>
+  <!-- offset hook -->
+  <path d="M90,65 Q92,45 100,38 Q115,28 125,35 Q130,42 125,48" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M125,48 Q120,52 115,50" stroke="#888" stroke-width="2" fill="none"/>
+</svg>`
+  },
+  {
+    name: "Swimbait",
+    tagline: "Lifelike baitfish — fools big predators",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+swimbait+for+bass",
+    target: ["Bass","Pike","Musky","Striper"], season: ["Spring","Fall"],
+    depth: "Any depth",
+    steps: ["Match lure size to local baitfish — shad, bluegill, or perch.","Reel at a slow, steady pace — the tail kicks naturally on its own.","Count down after casting to reach depth (1 second equals 1 foot).","Try stop-and-go near baitfish schools to mimic an injured fish."],
+    tip: "Swimbaits shine in cold, clear water. Use heavier jig heads in deeper water or strong current.",
+    svg: `<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- tail fin (paddle tail) -->
+  <ellipse cx="268" cy="75" rx="22" ry="30" fill="#7ab8d8" stroke="#5090b0" stroke-width="1.5" transform="rotate(10,268,75)"/>
+  <!-- segmented body -->
+  <path d="M72,75 Q90,48 140,45 Q190,45 225,60 Q250,70 255,75 Q250,80 225,90 Q190,105 140,105 Q90,102 72,75 Z" fill="#8bc4e0"/>
+  <!-- belly -->
+  <path d="M72,75 Q90,92 140,96 Q190,100 225,88 Q245,82 255,78" fill="#d0ecf8" opacity="0.7"/>
+  <!-- back darker -->
+  <path d="M72,75 Q90,58 140,54 Q190,52 225,62" stroke="#5090b0" stroke-width="2" fill="none" opacity="0.5"/>
+  <!-- dorsal fin -->
+  <path d="M140,46 Q160,25 185,32 Q180,46 165,46 Z" fill="#5090b0" stroke="#3a7090" stroke-width="1"/>
+  <!-- lateral line -->
+  <path d="M100,72 Q155,66 220,72" stroke="#5090b0" stroke-width="1" stroke-dasharray="4,4" fill="none"/>
+  <!-- gills -->
+  <path d="M105,60 Q98,75 105,90" stroke="#5090b0" stroke-width="2" fill="none"/>
+  <!-- eye -->
+  <circle cx="88" cy="70" r="9" fill="white" stroke="#333" stroke-width="1.5"/>
+  <circle cx="88" cy="70" r="6" fill="#222"/>
+  <circle cx="86" cy="68" r="2.5" fill="white"/>
+  <!-- segment lines on body -->
+  <line x1="155" y1="47" x2="155" y2="103" stroke="#5090b0" stroke-width="1.2" opacity="0.4"/>
+  <line x1="185" y1="47" x2="185" y2="101" stroke="#5090b0" stroke-width="1.2" opacity="0.4"/>
+  <line x1="215" y1="56" x2="215" y2="94" stroke="#5090b0" stroke-width="1.2" opacity="0.4"/>
+  <!-- belly hook -->
+  <circle cx="170" cy="105" r="4" fill="none" stroke="#999" stroke-width="1.8"/>
+  <line x1="170" y1="109" x2="170" y2="122" stroke="#999" stroke-width="1.5"/>
+  <path d="M163,122 Q160,130 157,136" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M177,122 Q180,130 183,136" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M170,122 Q170,131 170,137" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Spoon",
+    tagline: "Classic flash and flutter — works everywhere",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+fishing+spoon",
+    target: ["Trout","Bass","Pike","Salmon"], season: ["Year-round"],
+    depth: "Any depth",
+    steps: ["Cast and let it flutter down, counting to your target depth.","Reel steadily — it wobbles side to side like a wounded baitfish.","For jigging: drop to bottom, snap up 2–3 feet, let it flutter back down.","Trolling: drag behind a slow boat at 1.5–2.5 mph."],
+    tip: "Silver in clear sunny water. Gold in cloudy conditions. Add a split ring to the hook end for better action.",
+    svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d0d0d0"/>
+      <stop offset="25%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#c8c8c8"/>
+      <stop offset="75%" stop-color="#f0f0f0"/>
+      <stop offset="100%" stop-color="#a8a8a8"/>
+    </linearGradient>
+  </defs>
+  <!-- spoon body (slight curve) -->
+  <ellipse cx="160" cy="85" rx="38" ry="68" fill="url(#chrome)" stroke="#bbb" stroke-width="2"/>
+  <!-- shine streak 1 -->
+  <path d="M138,28 Q148,60 145,115" stroke="white" stroke-width="4" fill="none" opacity="0.6" stroke-linecap="round"/>
+  <!-- shine streak 2 -->
+  <path d="M150,25 Q158,55 155,112" stroke="white" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <!-- edge highlight -->
+  <ellipse cx="160" cy="85" rx="38" ry="68" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+  <!-- split ring top -->
+  <circle cx="160" cy="17" r="6" fill="none" stroke="#999" stroke-width="2"/>
+  <!-- line at top -->
+  <line x1="160" y1="11" x2="160" y2="5" stroke="#ccc" stroke-width="1.5"/>
+  <!-- split ring bottom -->
+  <circle cx="160" cy="153" r="6" fill="none" stroke="#999" stroke-width="2"/>
+  <!-- treble hook -->
+  <line x1="160" y1="159" x2="160" y2="170" stroke="#888" stroke-width="1.5"/>
+  <path d="M153,170 Q149,178 146,184" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M167,170 Q171,178 174,184" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M160,170 Q160,179 160,185" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Buzzbait",
+    tagline: "Churns the surface — chaos in the shallows",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+buzzbait+for+bass",
+    target: ["Bass","Pike"], season: ["Summer","Early Fall"],
+    depth: "Surface only",
+    steps: ["Cast near shallow cover — matted weeds, laydowns, or dock edges.","Start reeling the instant it hits the water to keep it on top.","Reel fast enough to keep the prop churning the surface.","Slow near openings in the weeds — that is where strikes explode."],
+    tip: "Add a trailer hook to catch fish that swipe and miss. Fish in calm conditions for maximum surface disturbance.",
+    svg: `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- upper arm wire -->
+  <path d="M80,145 Q120,100 185,75" stroke="#ccc" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- lower arm wire -->
+  <line x1="80" y1="145" x2="130" y2="170" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+  <!-- buzz blade left -->
+  <path d="M185,75 Q170,55 155,65 Q150,75 165,78 Q180,80 185,75 Z" fill="#ddd" stroke="#bbb" stroke-width="1.5"/>
+  <path d="M145,65 Q132,45 118,55 Q113,65 128,68 Q142,71 145,65 Z" fill="#ddd" stroke="#bbb" stroke-width="1.5"/>
+  <!-- blade axle -->
+  <circle cx="185" cy="75" r="5" fill="#999" stroke="#888" stroke-width="1"/>
+  <!-- clacker -->
+  <ellipse cx="175" cy="80" rx="6" ry="4" fill="#f0a020" stroke="#c07010" stroke-width="1"/>
+  <!-- jig head -->
+  <ellipse cx="80" cy="148" rx="20" ry="18" fill="white" stroke="#ddd" stroke-width="1.5"/>
+  <!-- eye -->
+  <circle cx="70" cy="142" r="5" fill="white" stroke="#333" stroke-width="1"/>
+  <circle cx="70" cy="142" r="3" fill="#111"/>
+  <!-- hook -->
+  <path d="M90,160 Q115,172 120,188 Q125,200 118,203 Q110,206 107,196" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M107,196 Q102,193 100,188" stroke="#888" stroke-width="2" fill="none"/>
+  <!-- skirt white -->
+  <g>
+    <path d="M68,162 Q56,178 50,195" stroke="#f0f0f0" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M71,164 Q60,181 55,198" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M74,165 Q66,183 62,200" stroke="#f0f0f0" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M77,166 Q72,184 70,201" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M80,166 Q78,184 78,201" stroke="#f0f0f0" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M83,165 Q84,183 86,200" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M86,164 Q90,181 94,198" stroke="#f0f0f0" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M89,162 Q95,178 100,194" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>`
+  },
+  {
+    name: "Hollow Body Frog",
+    tagline: "Walks over thick weeds fish cannot resist",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+hollow+body+frog+lure",
+    target: ["Bass","Pike","Musky"], season: ["Summer"],
+    depth: "Surface — lily pads and matted grass",
+    steps: ["Cast onto the thickest nastiest weed mats you can find.","Twitch the rod tip left and right to walk the frog side to side.","Pause over any open pockets in the weeds for 3–5 seconds.","When the water explodes wait a full second before setting the hook hard."],
+    tip: "Use 50–65 lb braid — you need power to muscle fish out of thick weeds. Set the hook sideways, not straight up.",
+    svg: `<svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+  <!-- rear legs -->
+  <path d="M135,120 Q115,145 95,148 Q80,148 78,140 Q82,132 95,135 Q110,138 125,118" stroke="#4a8a20" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M185,120 Q205,145 225,148 Q240,148 242,140 Q238,132 225,135 Q210,138 195,118" stroke="#4a8a20" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- feet -->
+  <path d="M78,140 Q70,142 65,148 Q72,150 80,146" stroke="#3a7010" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M78,140 Q74,148 72,155 Q79,155 82,148" stroke="#3a7010" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M242,140 Q250,142 255,148 Q248,150 240,146" stroke="#3a7010" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M242,140 Q246,148 248,155 Q241,155 238,148" stroke="#3a7010" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- body -->
+  <ellipse cx="160" cy="105" rx="62" ry="42" fill="#5aac28" stroke="#3a8010" stroke-width="2"/>
+  <!-- belly lighter -->
+  <ellipse cx="160" cy="112" rx="52" ry="28" fill="#a8d870" opacity="0.5"/>
+  <!-- spots -->
+  <circle cx="140" cy="95" r="7" fill="#3a8010" opacity="0.4"/>
+  <circle cx="175" cy="92" r="5" fill="#3a8010" opacity="0.4"/>
+  <circle cx="155" cy="108" r="4" fill="#3a8010" opacity="0.3"/>
+  <!-- eyes -->
+  <circle cx="130" cy="82" r="12" fill="#c8e870" stroke="#3a8010" stroke-width="2"/>
+  <circle cx="130" cy="82" r="7" fill="#111"/>
+  <circle cx="127" cy="79" r="3" fill="white"/>
+  <circle cx="190" cy="82" r="12" fill="#c8e870" stroke="#3a8010" stroke-width="2"/>
+  <circle cx="190" cy="82" r="7" fill="#111"/>
+  <circle cx="187" cy="79" r="3" fill="white"/>
+  <!-- hooks (tucked against belly - shown peeking) -->
+  <path d="M148,145 Q145,155 148,162 Q154,168 160,162" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M172,145 Q175,155 172,162 Q166,168 160,162" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Ned Rig",
+    tagline: "Tiny finesse bait — impossible for bass to ignore",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+ned+rig+for+bass",
+    target: ["Bass","Walleye","Smallmouth"], season: ["Summer","Winter"],
+    depth: "Bottom — any depth",
+    steps: ["Use a small mushroom jig head (1/15–1/4 oz) with a short ElaZtech stick bait.","Cast out and let it sink — it stands straight up on the bottom naturally.","Drag it very slowly, letting it stand back up after each pull.","Shake gently in place — the standing tail drives fish crazy."],
+    tip: "The Ned Rig is your best friend when nothing else works. Light 6–8 lb fluorocarbon and a spinning rod get the most bites.",
+    svg: `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- bottom (gravel implied) -->
+  <path d="M60,175 Q160,168 260,175" stroke="#c8b090" stroke-width="3" fill="none" opacity="0.4"/>
+  <!-- mushroom jig head -->
+  <ellipse cx="160" cy="158" rx="28" ry="18" fill="#e82020" stroke="#b01010" stroke-width="1.5"/>
+  <!-- jig head dome highlight -->
+  <ellipse cx="152" cy="151" rx="10" ry="6" fill="#ff6060" opacity="0.4"/>
+  <!-- hook bend -->
+  <path d="M182,160 Q210,160 218,148 Q224,138 218,130 Q210,124 200,130" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M200,130 Q194,124 190,120" stroke="#888" stroke-width="2" fill="none"/>
+  <!-- stick bait body (standing up) -->
+  <path d="M155,158 Q153,120 152,80 Q152,55 154,35" stroke="#5a8040" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <!-- stick bait highlight -->
+  <path d="M153,155 Q151,118 150,78 Q150,53 152,33" stroke="#80b060" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- wiggly tail at top -->
+  <path d="M154,35 Q160,22 166,18 Q172,14 168,22 Q164,28 160,25" stroke="#5a8040" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Senko Wacky Rig",
+    tagline: "Slow-fall stick bait — ridiculously effective",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+senko+wacky+rig+for+bass",
+    target: ["Bass"], season: ["Spring","Summer","Fall"],
+    depth: "Any — shallows to 20 ft",
+    steps: ["Hook through the middle of the worm with no weight (wacky style).","Cast near docks, laydowns, or beds and let it sink on slack line.","Both ends wiggle and flutter as it falls — that is what triggers bites.","Barely twitch it on the bottom — most bites come on the fall with no added action."],
+    tip: "Use an O-ring on the worm middle to thread the hook through — this saves the worm from tearing on every fish.",
+    svg: `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- worm body - slight U droop since wacky rigged -->
+  <path d="M50,65 Q80,60 120,70 Q145,78 160,82 Q175,78 200,70 Q240,60 270,65" 
+        stroke="#4a6e38" stroke-width="20" fill="none" stroke-linecap="round"/>
+  <!-- worm highlight -->
+  <path d="M50,58 Q80,53 120,63 Q145,71 160,75 Q175,71 200,63 Q240,53 270,58" 
+        stroke="#7aae58" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- O-ring center -->
+  <ellipse cx="160" cy="80" rx="10" ry="5" fill="none" stroke="#222" stroke-width="2.5"/>
+  <!-- hook through O-ring -->
+  <path d="M160,75 Q160,55 168,42 Q178,30 188,35 Q195,42 190,50 Q184,56 176,50" 
+        stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M176,50 Q170,44 165,48" stroke="#888" stroke-width="2" fill="none"/>
+  <!-- tail taper -->
+  <path d="M265,65 Q278,62 285,55 Q288,48 282,46 Q276,48 272,56" stroke="#4a6e38" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- head taper -->
+  <path d="M55,65 Q42,62 35,55 Q32,48 38,46 Q44,48 48,56" stroke="#4a6e38" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- glitter flecks -->
+  <circle cx="90" cy="68" r="1.5" fill="#a0d870" opacity="0.6"/>
+  <circle cx="130" cy="74" r="1.5" fill="#a0d870" opacity="0.6"/>
+  <circle cx="190" cy="72" r="1.5" fill="#a0d870" opacity="0.6"/>
+  <circle cx="230" cy="65" r="1.5" fill="#a0d870" opacity="0.6"/>
+  <!-- falling arrows to show fall action -->
+  <path d="M105,115 L105,130 L100,124 M105,130 L110,124" stroke="#1a3a50" stroke-width="1.5" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <path d="M215,115 L215,130 L210,124 M215,130 L220,124" stroke="#1a3a50" stroke-width="1.5" fill="none" opacity="0.4" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Drop Shot",
+    tagline: "Finesse rig — deadly when fish are stubborn",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+drop+shot+rig",
+    target: ["Bass","Walleye","Perch"], season: ["Summer","Winter"],
+    depth: "6–25 ft",
+    steps: ["Tie hook 12–18 inches above a small drop weight (1/4–3/8 oz).","Lower straight down to the bottom or cast and let it sink.","Shake the rod tip gently — the worm dances while the rig stays in place.","Drag slowly along the bottom, pausing to shake every few feet."],
+    tip: "Drop shot is the best tough-bite lure there is. Use 6–10 lb fluorocarbon and natural colors in clear water.",
+    svg: `<svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg">
+  <!-- main line coming down -->
+  <line x1="160" y1="10" x2="160" y2="90" stroke="#ccc" stroke-width="1.8"/>
+  <!-- knot at hook -->
+  <circle cx="160" cy="90" r="4" fill="#bbb"/>
+  <!-- circle hook -->
+  <path d="M160,90 Q185,90 192,105 Q196,118 188,126 Q178,132 168,124 Q162,118 166,110" 
+        stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- hook point -->
+  <path d="M166,110 Q160,104 155,108" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- finesse worm on hook (horizontal, nosed) -->
+  <path d="M168,88 Q185,82 210,84 Q230,86 245,90" stroke="#c89060" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- worm tail wiggle -->
+  <path d="M245,90 Q255,88 260,82 Q258,76 252,78" stroke="#c89060" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- worm highlight -->
+  <path d="M168,84 Q185,78 210,80 Q228,82 242,86" stroke="#e8b890" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- drop line below hook -->
+  <line x1="160" y1="94" x2="160" y2="168" stroke="#ccc" stroke-width="1.8"/>
+  <!-- teardrop weight -->
+  <path d="M152,168 Q140,175 143,188 Q148,198 160,198 Q172,198 177,188 Q180,175 168,168 Z" 
+        fill="#888" stroke="#666" stroke-width="1.5"/>
+  <!-- weight shine -->
+  <path d="M156,172 Q152,180 154,188" stroke="#bbb" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <!-- bottom ground dots -->
+  <circle cx="130" cy="202" r="4" fill="#c8b090" opacity="0.4"/>
+  <circle cx="155" cy="205" r="3" fill="#c8b090" opacity="0.4"/>
+  <circle cx="178" cy="203" r="4" fill="#c8b090" opacity="0.4"/>
+  <circle cx="200" cy="205" r="3" fill="#c8b090" opacity="0.3"/>
+</svg>`
+  },
+  {
+    name: "Inline Spinner",
+    tagline: "Dead simple — great for beginners and trout",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+an+inline+spinner+for+trout+bass",
+    target: ["Trout","Bass","Panfish","Pike"], season: ["Spring","Summer","Fall"],
+    depth: "Any depth",
+    steps: ["Cast upstream or across current in rivers. Open water in lakes.","Reel at a medium-fast steady pace — the blade must spin the whole time.","In current let it drift downstream slightly as you retrieve.","Cast upstream to stay shallow. Cast downstream to sink deeper."],
+    tip: "If the blade stops spinning the lure is dead — reel faster. Sizes 0–2 for trout and panfish, 3–5 for bass and pike.",
+    svg: `<svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="chrome2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d0d0d0"/>
+      <stop offset="40%" stop-color="#fff"/>
+      <stop offset="100%" stop-color="#a0a0a0"/>
+    </linearGradient>
+  </defs>
+  <!-- wire shaft -->
+  <line x1="45" y1="75" x2="275" y2="75" stroke="#ccc" stroke-width="2.5"/>
+  <!-- clevice ring -->
+  <circle cx="110" cy="75" r="5" fill="none" stroke="#aaa" stroke-width="2"/>
+  <!-- oval blade (tilted to show spinning) -->
+  <ellipse cx="80" cy="62" rx="12" ry="26" fill="url(#chrome2)" stroke="#bbb" stroke-width="1.5" transform="rotate(-20,80,62)"/>
+  <!-- blade shine -->
+  <path d="M73,44 L75,72" stroke="white" stroke-width="2" opacity="0.6" transform="rotate(-20,80,62)" stroke-linecap="round"/>
+  <!-- body bead (yellow) -->
+  <ellipse cx="155" cy="75" rx="22" ry="16" fill="#f5c030" stroke="#c09010" stroke-width="1.5"/>
+  <!-- red bead -->
+  <ellipse cx="185" cy="75" rx="10" ry="10" fill="#e02020" stroke="#a00000" stroke-width="1.5"/>
+  <!-- treble hook at end -->
+  <line x1="205" y1="75" x2="220" y2="75" stroke="#999" stroke-width="1.5"/>
+  <path d="M220,75 Q230,75 235,82 Q238,90 232,94 Q226,97 221,90" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M221,90 Q218,85 220,80" stroke="#888" stroke-width="1.8" fill="none"/>
+  <path d="M220,75 Q230,75 235,68 Q238,60 232,56 Q226,53 221,60" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M220,75 Q228,80 232,88" stroke="#888" stroke-width="1.5" fill="none"/>
+  <!-- split ring at front -->
+  <circle cx="50" cy="75" r="6" fill="none" stroke="#aaa" stroke-width="2"/>
+  <!-- split ring at rear -->
+  <circle cx="210" cy="75" r="5" fill="none" stroke="#aaa" stroke-width="1.8"/>
+  <!-- spin motion lines -->
+  <path d="M65,42 Q58,52 62,62" stroke="#ddd" stroke-width="1.2" fill="none" opacity="0.5"/>
+  <path d="M90,38 Q98,48 96,58" stroke="#ddd" stroke-width="1.2" fill="none" opacity="0.5"/>
+</svg>`
+  },
+  {
+    name: "ChatterBait",
+    tagline: "Vibrating blade — fast and aggressive",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+chatterbait+for+bass",
+    target: ["Bass","Pike"], season: ["Spring","Summer"],
+    depth: "2–12 ft",
+    steps: ["Cast to submerged grass edges, points, or shallow flats.","Reel steadily — the blade bangs and vibrates calling fish from far away.","Burn it fast through open water for reaction strikes.","Slow roll through grass — it deflects off weeds and triggers bites."],
+    tip: "Add a paddle tail swimbait trailer for more action. White and chartreuse dominate in spring when fish follow shad.",
+    svg: `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8e8e8"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#c0c0c0"/>
+    </linearGradient>
+  </defs>
+  <!-- hex/diamond blade in front -->
+  <path d="M62,95 L90,68 L130,65 L148,95 L130,125 L90,128 Z" fill="url(#blade)" stroke="#bbb" stroke-width="2"/>
+  <!-- blade shine -->
+  <path d="M90,72 L118,70" stroke="white" stroke-width="2" opacity="0.6"/>
+  <path d="M80,95 L105,120" stroke="white" stroke-width="1.5" opacity="0.4"/>
+  <!-- connection wire -->
+  <line x1="148" y1="95" x2="162" y2="95" stroke="#aaa" stroke-width="2"/>
+  <!-- jig head -->
+  <ellipse cx="185" cy="95" rx="28" ry="26" fill="#e8362a" stroke="#b01010" stroke-width="1.5"/>
+  <!-- jig head highlight -->
+  <ellipse cx="176" cy="86" rx="10" ry="8" fill="#ff6050" opacity="0.4"/>
+  <!-- eye -->
+  <circle cx="172" cy="88" r="7" fill="white" stroke="#333" stroke-width="1"/>
+  <circle cx="172" cy="88" r="4" fill="#111"/>
+  <circle cx="170" cy="86" r="1.5" fill="white"/>
+  <!-- hook -->
+  <path d="M208,100 Q240,100 248,85 Q254,72 245,62 Q234,54 222,62" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M222,62 Q216,56 210,52" stroke="#888" stroke-width="2" fill="none"/>
+  <!-- skirt white/chartreuse -->
+  <g>
+    <path d="M175,118 Q162,140 156,162" stroke="#c8e820" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M178,120 Q167,142 162,165" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M181,121 Q173,143 170,167" stroke="#c8e820" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M184,121 Q179,143 178,168" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M187,120 Q185,142 186,167" stroke="#c8e820" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M190,119 Q191,141 194,166" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M193,118 Q197,139 202,163" stroke="#c8e820" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M196,116 Q202,137 208,160" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- swimbait trailer -->
+  <path d="M158,163 Q175,175 200,175 Q225,175 242,163" stroke="#88b8d8" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <!-- trailer tail -->
+  <path d="M242,163 Q260,158 265,148 Q260,140 250,145 Q243,150 242,163" stroke="#88b8d8" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg>`
+  },
+  {
+    name: "Carolina Rig",
+    tagline: "Covers water fast — great for finding fish",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+carolina+rig+for+bass",
+    target: ["Bass","Walleye","Catfish"], season: ["Summer","Fall"],
+    depth: "Bottom — 8–25 ft",
+    steps: ["Thread a 1/2–1 oz bullet sinker on main line then add a bead and tie a swivel.","Attach 18–24 inch leader to the swivel then tie on your hook and plastic bait.","Cast far out to deep structure — points, humps, or channel edges.","Drag slowly across the bottom and feel for changes in the bottom type."],
+    tip: "The bead clicking against the sinker creates noise that attracts fish. Target transition zones where sand meets gravel or mud meets rock.",
+    svg: `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- main line -->
+  <line x1="30" y1="75" x2="145" y2="75" stroke="#ccc" stroke-width="2"/>
+  <!-- bullet weight -->
+  <path d="M55,60 L80,75 L55,90 Z" fill="#888" stroke="#666" stroke-width="1.5"/>
+  <!-- bead -->
+  <circle cx="92" cy="75" r="7" fill="#e82020" stroke="#b00" stroke-width="1"/>
+  <!-- swivel -->
+  <rect x="102" y="70" width="18" height="10" rx="5" fill="#aaa" stroke="#888" stroke-width="1.2"/>
+  <!-- leader line -->
+  <line x1="120" y1="75" x2="230" y2="75" stroke="#d0e0f0" stroke-width="1.8"/>
+  <!-- leader label -->
+  <text x="167" y="65" font-size="9" fill="#888" text-anchor="middle">18–24 in leader</text>
+  <!-- hook -->
+  <path d="M230,75 Q250,75 257,88 Q260,100 253,107 Q244,112 236,104 Q230,97 234,88" 
+        stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M234,88 Q228,83 224,88" stroke="#888" stroke-width="2" fill="none"/>
+  <!-- lizard bait -->
+  <path d="M232,73 Q248,65 265,66 Q278,67 282,75 Q278,82 265,82 Q248,82 232,75" 
+        stroke="#5a8040" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <!-- lizard tail -->
+  <path d="M282,75 Q295,72 302,65 Q298,58 290,62 Q285,66 282,75" stroke="#5a8040" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- lizard legs -->
+  <line x1="250" y1="65" x2="246" y2="52" stroke="#5a8040" stroke-width="4" stroke-linecap="round"/>
+  <line x1="265" y1="64" x2="263" y2="50" stroke="#5a8040" stroke-width="4" stroke-linecap="round"/>
+  <line x1="250" y1="82" x2="246" y2="96" stroke="#5a8040" stroke-width="4" stroke-linecap="round"/>
+  <line x1="265" y1="82" x2="263" y2="96" stroke="#5a8040" stroke-width="4" stroke-linecap="round"/>
+  <!-- bottom ground -->
+  <path d="M30,118 Q160,110 290,118" stroke="#c8b090" stroke-width="3" fill="none" opacity="0.4"/>
+  <circle cx="80" cy="120" r="4" fill="#c8b090" opacity="0.3"/>
+  <circle cx="160" cy="122" r="3" fill="#c8b090" opacity="0.3"/>
+  <circle cx="240" cy="120" r="4" fill="#c8b090" opacity="0.3"/>
+</svg>`
+  },
+  {
+    name: "Jigging Spoon",
+    tagline: "Vertical jigging — a winter walleye killer",
+    video: "https://www.youtube.com/results?search_query=how+to+fish+a+jigging+spoon+for+walleye+ice+fishing",
+    target: ["Walleye","Perch","Crappie","Pike"], season: ["Winter","Spring"],
+    depth: "Bottom — 10–40 ft",
+    steps: ["Drop straight down to where fish show on sonar or to the bottom.","Snap the rod tip up sharply 12–18 inches then let it free fall back down.","The lure darts sideways then flutters — mimics a dying baitfish perfectly.","Vary the snap: aggressive to attract fish, subtle twitch to trigger the bite."],
+    tip: "Most bites happen as it flutters back down. Keep just enough tension to feel the tap — do not let it go completely slack.",
+    svg: `<svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="jigging" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d8d8d8"/>
+      <stop offset="30%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#b8b8b8"/>
+      <stop offset="100%" stop-color="#e0e0e0"/>
+    </linearGradient>
+  </defs>
+  <!-- line coming down -->
+  <line x1="160" y1="10" x2="160" y2="42" stroke="#ccc" stroke-width="1.8"/>
+  <!-- split ring top -->
+  <circle cx="160" cy="46" r="5" fill="none" stroke="#aaa" stroke-width="2"/>
+  <!-- narrow jigging spoon body (elongated oval, slightly curved) -->
+  <path d="M148,50 Q140,95 145,145 Q148,162 160,165 Q172,162 175,145 Q180,95 172,50 Q166,44 160,44 Q154,44 148,50 Z" 
+        fill="url(#jigging)" stroke="#bbb" stroke-width="1.5"/>
+  <!-- body curve detail -->
+  <path d="M153,55 Q148,100 152,145" stroke="white" stroke-width="3" opacity="0.5" stroke-linecap="round"/>
+  <path d="M158,50 Q155,95 157,148" stroke="white" stroke-width="1.5" opacity="0.3" stroke-linecap="round"/>
+  <!-- red dot accent -->
+  <circle cx="160" cy="75" r="6" fill="#e82020" opacity="0.7"/>
+  <!-- split ring bottom -->
+  <circle cx="160" cy="169" r="5" fill="none" stroke="#aaa" stroke-width="2"/>
+  <!-- treble hook -->
+  <line x1="160" y1="174" x2="160" y2="185" stroke="#888" stroke-width="1.5"/>
+  <path d="M153,185 Q149,193 146,199" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M167,185 Q171,193 174,199" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M160,185 Q160,194 160,200" stroke="#888" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- flutter motion lines -->
+  <path d="M115,80 Q108,95 115,110" stroke="#ddd" stroke-width="1.5" fill="none" opacity="0.5" stroke-dasharray="3,3"/>
+  <path d="M205,80 Q212,95 205,110" stroke="#ddd" stroke-width="1.5" fill="none" opacity="0.5" stroke-dasharray="3,3"/>
+</svg>`
+  },
 ];
 
 function build() {
@@ -142,7 +714,7 @@ function build() {
     const card = document.createElement("div");
     card.className = "lure-card";
     card.innerHTML = `
-      <div class="lure-img-box"><div class="lure-emoji">${lure.emoji}</div></div>
+      <div class="lure-img-box">${lure.svg}</div>
       <div class="lure-label">
         <div><h2>${lure.name}</h2><p>${lure.tagline}</p></div>
         <span class="chevron">▼</span>
