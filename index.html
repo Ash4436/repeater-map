@@ -40,6 +40,7 @@
   .channel-item { display: flex; align-items: center; padding: 4px 10px 4px 14px; border-bottom: 1px solid #0d1b2a; cursor: pointer; transition: background .1s; }
   .channel-item:hover { background: #1e2d45; }
   .channel-item.hidden-band { display: none; }
+  .channel-item.map-highlighted { background: #1e3a5f; outline: 2px solid #e94560; outline-offset: -2px; }
   .channel-item input[type=checkbox] { margin-right: 7px; flex-shrink: 0; accent-color: #e94560; }
   .ch-info { flex: 1; min-width: 0; }
   .ch-name { font-weight: 600; font-size: 12px; }
@@ -99,108 +100,108 @@
 // band values: "gmrs" = GMRS repeater, "frs" = FRS/GMRS-simp/MURS, "2m", "70cm", "other" = sat/special
 const CH = [
   // ── GMRS Repeaters ─────────────────────────────────────────
-  {n:"WPTU75", f:462.675000, du:"+", of:5.000000, to:"Tone",  rT:123.0, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"DOWNTO", f:462.725000, du:"+", of:5.000000, to:"DTCS",  rT:88.5,  cT:88.5,  dc:"343",dtP:"NN",rd:"343",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Akron / Downtown",    band:"gmrs"},
-  {n:"WQXE56", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WQXW90", f:462.650000, du:"+", of:5.000000, to:"Tone",  rT:141.3, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"SR30",   f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:110.9, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Wayne County / SR-30",band:"gmrs"},
-  {n:"GARDEN", f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRAL61", f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:107.2, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"EASTSI", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:71.9,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Cleveland East Side", band:"gmrs"},
-  {n:"WRDF98", f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:123.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"GREENH", f:462.725000, du:"+", of:5.000000, to:"Cross", rT:88.5,  cT:88.5,  dc:"265",dtP:"NN",rd:"023",cr:"DTCS->",    mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"SR71",   f:462.650000, du:"+", of:5.000000, to:"Tone",  rT:79.7,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Medina / SR-71",      band:"gmrs"},
-  {n:"WREY27", f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:100.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRFS36", f:462.675000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"CENTRA", f:462.575000, du:"",  of:5.000000, to:"TSQL",  rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Akron / Downtown",    band:"gmrs"},
-  {n:"WRJV66", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:100.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRKG59", f:462.725000, du:"+", of:5.000000, to:"Tone",  rT:141.3, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"RT84 A", f:462.575000, du:"+", of:5.000000, to:"Tone",  rT:131.8, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRKT68", f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"ASHLAN", f:462.575000, du:"+", of:5.000000, to:"Tone",  rT:71.9,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Ashland",             band:"gmrs"},
-  {n:"WRNM90", f:462.650000, du:"+", of:5.000000, to:"Tone",  rT:203.5, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WROH79", f:462.650000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WROR60", f:462.700000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WROR60", f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WROT27", f:462.675000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"SPRING", f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Springfield Twp",     band:"gmrs"},
-  {n:"AMANDA", f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:100.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Amanda / S Ohio",     band:"gmrs"},
-  {n:"WRUK87", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"NEW CA", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:107.2, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"New Castle PA",       band:"gmrs"},
-  {n:"WRVD45", f:462.700000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:79.7,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"SR57",   f:462.575000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Medina / SR-57",      band:"gmrs"},
-  {n:"POMERO", f:462.700000, du:"+", of:5.000000, to:"Tone",  rT:91.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"SE Ohio / Pomeroy",   band:"gmrs"},
-  {n:"WRVU87", f:462.550000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRWM72", f:462.575000, du:"+", of:5.000000, to:"Tone",  rT:79.7,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRWV20", f:462.550000, du:"+", of:5.000000, to:"Tone",  rT:141.3, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRXN46", f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRXN46", f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WRYI88", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"TOP OF", f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Summit County",       band:"gmrs"},
-  {n:"DOWNTO", f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Akron / Downtown",    band:"gmrs"},
-  {n:"BIGFOO", f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:79.7,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WSAA69", f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:203.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WSAH21", f:462.725000, du:"+", of:5.000000, to:"Tone",  rT:131.8, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WSAH21", f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"MID-OH", f:462.625000, du:"+", of:5.000000, to:"Tone",  rT:118.8, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Mid-Ohio",            band:"gmrs"},
-  {n:"WSCM55", f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WSDW45", f:462.550000, du:"+", of:5.000000, to:"Tone",  rT:67.0,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WSEJ75", f:462.625000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"WSFF62", f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"ROOSEV", f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:91.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Roosevelt / Portage",  band:"gmrs"},
-  {n:"TOP OF", f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W", cm:"", area:"Summit County",        band:"gmrs"},
-  {n:"WSHR64", f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:123.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
-  {n:"HILLTO", f:462.725000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Summit County",       band:"gmrs"},
-  {n:"WSMA30", f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:118.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WPTU75", nm:"WPTU75",              f:462.675000, du:"+", of:5.000000, to:"Tone",  rT:123.0, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"DOWNTO", nm:"Downtown Akron",      f:462.725000, du:"+", of:5.000000, to:"DTCS",  rT:88.5,  cT:88.5,  dc:"343",dtP:"NN",rd:"343",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Akron / Downtown",    band:"gmrs"},
+  {n:"WQXE56", nm:"WQXE56",             f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WQXW90", nm:"WQXW90",             f:462.650000, du:"+", of:5.000000, to:"Tone",  rT:141.3, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"SR30",   nm:"SR-30",              f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:110.9, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Wayne County / SR-30",band:"gmrs"},
+  {n:"GARDEN", nm:"Garden",             f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRAL61", nm:"WRAL61",             f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:107.2, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"EASTSI", nm:"East Side Cleveland",f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:71.9,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Cleveland East Side", band:"gmrs"},
+  {n:"WRDF98", nm:"WRDF98",             f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:123.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"GREENH", nm:"Greenhill",          f:462.725000, du:"+", of:5.000000, to:"Cross", rT:88.5,  cT:88.5,  dc:"265",dtP:"NN",rd:"023",cr:"DTCS->",    mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"SR71",   nm:"SR-71",             f:462.650000, du:"+", of:5.000000, to:"Tone",  rT:79.7,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Medina / SR-71",      band:"gmrs"},
+  {n:"WREY27", nm:"WREY27",             f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:100.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRFS36", nm:"WRFS36",             f:462.675000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"CENTRA", nm:"Central Akron",      f:462.575000, du:"",  of:5.000000, to:"TSQL",  rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Akron / Downtown",    band:"gmrs"},
+  {n:"WRJV66", nm:"WRJV66",             f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:100.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRKG59", nm:"WRKG59",             f:462.725000, du:"+", of:5.000000, to:"Tone",  rT:141.3, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"RT84 A", nm:"RT-84 A",            f:462.575000, du:"+", of:5.000000, to:"Tone",  rT:131.8, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRKT68", nm:"WRKT68",             f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"ASHLAN", nm:"Ashland",            f:462.575000, du:"+", of:5.000000, to:"Tone",  rT:71.9,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Ashland",             band:"gmrs"},
+  {n:"WRNM90", nm:"WRNM90",             f:462.650000, du:"+", of:5.000000, to:"Tone",  rT:203.5, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WROH79", nm:"WROH79",             f:462.650000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WROR60", nm:"WROR60",             f:462.700000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WROR60", nm:"WROR60",             f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WROT27", nm:"WROT27",             f:462.675000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"SPRING", nm:"Springfield Township",f:462.675000,du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Springfield Twp",     band:"gmrs"},
+  {n:"AMANDA", nm:"Amanda",             f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:100.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Amanda / S Ohio",     band:"gmrs"},
+  {n:"WRUK87", nm:"WRUK87",             f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"NEW CA", nm:"New Castle PA",      f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:107.2, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"New Castle PA",       band:"gmrs"},
+  {n:"WRVD45", nm:"WRVD45",             f:462.700000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:79.7,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"SR57",   nm:"SR-57",             f:462.575000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Medina / SR-57",      band:"gmrs"},
+  {n:"POMERO", nm:"Pomeroy",            f:462.700000, du:"+", of:5.000000, to:"Tone",  rT:91.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"SE Ohio / Pomeroy",   band:"gmrs"},
+  {n:"WRVU87", nm:"WRVU87",             f:462.550000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRWM72", nm:"WRWM72",             f:462.575000, du:"+", of:5.000000, to:"Tone",  rT:79.7,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRWV20", nm:"WRWV20",             f:462.550000, du:"+", of:5.000000, to:"Tone",  rT:141.3, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRXN46", nm:"WRXN46",             f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRXN46", nm:"WRXN46",             f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WRYI88", nm:"WRYI88",             f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"TOP OF", nm:"Top of the Summit",  f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Summit County",       band:"gmrs"},
+  {n:"DOWNTO", nm:"Downtown Akron",     f:462.600000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Akron / Downtown",    band:"gmrs"},
+  {n:"BIGFOO", nm:"Bigfoot",            f:462.575000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:79.7,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WSAA69", nm:"WSAA69",             f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:203.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WSAH21", nm:"WSAH21",             f:462.725000, du:"+", of:5.000000, to:"Tone",  rT:131.8, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WSAH21", nm:"WSAH21",             f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:131.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"MID-OH", nm:"Mid-Ohio",           f:462.625000, du:"+", of:5.000000, to:"Tone",  rT:118.8, cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Mid-Ohio",            band:"gmrs"},
+  {n:"WSCM55", nm:"WSCM55",             f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WSDW45", nm:"WSDW45",             f:462.550000, du:"+", of:5.000000, to:"Tone",  rT:67.0,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WSEJ75", nm:"WSEJ75",             f:462.625000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"WSFF62", nm:"WSFF62",             f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"ROOSEV", nm:"Roosevelt / Portage",f:462.675000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:91.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Roosevelt / Portage",  band:"gmrs"},
+  {n:"TOP OF", nm:"Top of the Summit",  f:462.625000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:141.3, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W", cm:"", area:"Summit County",        band:"gmrs"},
+  {n:"WSHR64", nm:"WSHR64",             f:462.725000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:123.0, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
+  {n:"HILLTO", nm:"Hilltop",            f:462.725000, du:"+", of:5.000000, to:"",      rT:88.5,  cT:88.5,  dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"Summit County",       band:"gmrs"},
+  {n:"WSMA30", nm:"WSMA30",             f:462.650000, du:"+", of:5.000000, to:"TSQL",  rT:88.5,  cT:118.8, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W",  cm:"", area:"NE Ohio GMRS",       band:"gmrs"},
   // ── FRS Simplex ─────────────────────────────────────────────
-  {n:"FRS1",   f:462.562500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS2",   f:462.587500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS3",   f:462.612500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS4",   f:462.637500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS5",   f:462.662500, du:"-", of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS6",   f:462.687500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS7",   f:462.712500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS8",   f:467.562500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS9",   f:467.587500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS10",  f:467.612500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS11",  f:467.637500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS12",  f:467.662500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS13",  f:467.687500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
-  {n:"FRS14",  f:467.712500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS1",   nm:"FRS Channel 1",   f:462.562500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS2",   nm:"FRS Channel 2",   f:462.587500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS3",   nm:"FRS Channel 3",   f:462.612500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS4",   nm:"FRS Channel 4",   f:462.637500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS5",   nm:"FRS Channel 5",   f:462.662500, du:"-", of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS6",   nm:"FRS Channel 6",   f:462.687500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS7",   nm:"FRS Channel 7",   f:462.712500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS8",   nm:"FRS Channel 8",   f:467.562500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS9",   nm:"FRS Channel 9",   f:467.587500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS10",  nm:"FRS Channel 10",  f:467.612500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS11",  nm:"FRS Channel 11",  f:467.637500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS12",  nm:"FRS Channel 12",  f:467.662500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS13",  nm:"FRS Channel 13",  f:467.687500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
+  {n:"FRS14",  nm:"FRS Channel 14",  f:467.712500, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"FRS Simplex", band:"frs"},
   // ── GMRS Simplex ────────────────────────────────────────────
-  {n:"GMRS1",  f:462.550000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS2",  f:462.575000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS3",  f:462.600000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS4",  f:462.625000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS5",  f:462.650000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS6",  f:462.675000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS7",  f:462.700000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
-  {n:"GMRS8",  f:462.725000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS1",  nm:"GMRS Simplex Ch 1",f:462.550000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS2",  nm:"GMRS Simplex Ch 2",f:462.575000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS3",  nm:"GMRS Simplex Ch 3",f:462.600000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS4",  nm:"GMRS Simplex Ch 4",f:462.625000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS5",  nm:"GMRS Simplex Ch 5",f:462.650000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS6",  nm:"GMRS Simplex Ch 6",f:462.675000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS7",  nm:"GMRS Simplex Ch 7",f:462.700000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
+  {n:"GMRS8",  nm:"GMRS Simplex Ch 8",f:462.725000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"GMRS Simplex", band:"frs"},
   // ── MURS ────────────────────────────────────────────────────
-  {n:"MURS 1", f:151.820000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"MURS", band:"frs"},
-  {n:"MURS 2", f:151.880000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"MURS", band:"frs"},
-  {n:"MURS 3", f:151.940000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"MURS", band:"frs"},
+  {n:"MURS 1", nm:"MURS Channel 1",  f:151.820000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"MURS", band:"frs"},
+  {n:"MURS 2", nm:"MURS Channel 2",  f:151.880000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"MURS", band:"frs"},
+  {n:"MURS 3", nm:"MURS Channel 3",  f:151.940000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"NFM",ts:"5.00",pw:"5.0W",cm:"", area:"MURS", band:"frs"},
   // ── VHF Business / Other ────────────────────────────────────
-  {n:"BLUE D", f:154.570000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"VHF / Other", band:"other"},
-  {n:"GREEN",  f:154.600000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"VHF / Other", band:"other"},
-  {n:"CUYFAL", f:422.875000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Cuyahoga Falls", band:"other"},
+  {n:"BLUE D", nm:"Blue Dot",        f:154.570000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"VHF / Other", band:"other"},
+  {n:"GREEN",  nm:"Green",           f:154.600000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"VHF / Other", band:"other"},
+  {n:"CUYFAL", nm:"Cuyahoga Falls",  f:422.875000, du:"",  of:0.000000, to:"", rT:88.5, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Cuyahoga Falls", band:"other"},
   // ── 70cm Amateur ────────────────────────────────────────────
-  {n:"W8VPV",  f:444.850000, du:"+", of:5.000000, to:"Tone",  rT:110.9, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"10W", cm:"", area:"Cuyahoga Falls", band:"70cm"},
-  {n:"CFALLS", f:444.850000, du:"+", of:5.000000, to:"Tone",  rT:110.9, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Cuyahoga Falls", band:"70cm"},
+  {n:"W8VPV",  nm:"W8VPV",          f:444.850000, du:"+", of:5.000000, to:"Tone",  rT:110.9, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"10W", cm:"", area:"Cuyahoga Falls", band:"70cm"},
+  {n:"CFALLS", nm:"Cuyahoga Falls",  f:444.850000, du:"+", of:5.000000, to:"Tone",  rT:110.9, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Cuyahoga Falls", band:"70cm"},
   // ── Satellite / Special ─────────────────────────────────────
-  {n:"OS50",   f:145.850000, du:"split",of:436.800000,to:"Tone",rT:67.0, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Satellite / Special", band:"other"},
+  {n:"OS50",   nm:"AO-51 (Oscar Sierra 50)",f:145.850000,du:"split",of:436.800000,to:"Tone",rT:67.0,cT:88.5,dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM",ts:"5.00",pw:"5.0W",cm:"", area:"Satellite / Special", band:"other"},
   // ── 2m Amateur ──────────────────────────────────────────────
-  {n:"TALLMA", f:146.985000, du:"-",  of:0.600000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"Tallmadge",      band:"2m"},
+  {n:"TALLMA", nm:"Tallmadge",       f:146.985000, du:"-",  of:0.600000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"Tallmadge",      band:"2m"},
   // ── Satellite / Special cont. ────────────────────────────────
-  {n:"ISS VO", f:145.800000, du:"off",of:0.000000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Satellite / Special", band:"other"},
-  {n:"ISS PA", f:145.825000, du:"off",of:0.000000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Satellite / Special", band:"other"},
+  {n:"ISS VO", nm:"ISS Voice",       f:145.800000, du:"off",of:0.000000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Satellite / Special", band:"other"},
+  {n:"ISS PA", nm:"ISS Packet",      f:145.825000, du:"off",of:0.000000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Satellite / Special", band:"other"},
   // ── 2m Amateur cont. ─────────────────────────────────────────
-  {n:"CR AM",  f:145.110000, du:"-",  of:0.600000, to:"TSQL",  rT:88.5, cT:110.9, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Cuyahoga Falls",  band:"2m"},
+  {n:"CR AM",  nm:"CR Amateur",      f:145.110000, du:"-",  of:0.600000, to:"TSQL",  rT:88.5, cT:110.9, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"5.0W",cm:"", area:"Cuyahoga Falls",  band:"2m"},
   // ── Satellite cont. ──────────────────────────────────────────
-  {n:"ARCTIC", f:435.890000, du:"",   of:0.600000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"10W", cm:"", area:"Satellite / Special", band:"other"},
+  {n:"ARCTIC", nm:"Arctic",          f:435.890000, du:"",   of:0.600000, to:"",      rT:88.5,  cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"10W", cm:"", area:"Satellite / Special", band:"other"},
   // ── GMRS misc ────────────────────────────────────────────────
-  {n:"WRUA45", f:462.675000, du:"",   of:0.600000, to:"Tone",  rT:141.3, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"NE Ohio GMRS",        band:"gmrs"},
-  {n:"AMANDA", f:467.625000, du:"",   of:0.500000, to:"Tone",  rT:100.0, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"Amanda / S Ohio",     band:"gmrs"},
+  {n:"WRUA45", nm:"WRUA45",          f:462.675000, du:"",   of:0.600000, to:"Tone",  rT:141.3, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"NE Ohio GMRS",        band:"gmrs"},
+  {n:"AMANDA", nm:"Amanda",          f:467.625000, du:"",   of:0.500000, to:"Tone",  rT:100.0, cT:88.5, dc:"023",dtP:"NN",rd:"023",cr:"Tone->Tone",mo:"FM", ts:"5.00",pw:"25W", cm:"", area:"Amanda / S Ohio",     band:"gmrs"},
 ];
 
 // ── Area coordinates ──────────────────────────────────────────────────────────
@@ -295,19 +296,41 @@ const markers = CH.map((r, i) => {
   const mk = L.marker(ll, {icon: makeIcon(r.band, false)}).addTo(map);
   const dupStr = r.du === "+" ? `+${r.of.toFixed(3)} MHz` : r.du === "-" ? `-${r.of.toFixed(3)} MHz` : r.du === "split" ? `split ${r.of.toFixed(3)}` : r.du === "off" ? "off" : "simplex";
   mk.bindPopup(`
-    <div class="pu-name">${r.n}</div>
+    <div class="pu-name">${r.nm || r.n}</div>
+    <div class="pu-row"><span class="pu-lbl">CHIRP:</span><span class="pu-val">${r.n}</span></div>
     <div class="pu-row"><span class="pu-lbl">Freq:</span><span class="pu-val">${r.f.toFixed(4)} MHz</span></div>
     <div class="pu-row"><span class="pu-lbl">Duplex:</span><span class="pu-val">${dupStr}</span></div>
     <div class="pu-row"><span class="pu-lbl">Tone:</span><span class="pu-val">${r.to||"none"} ${r.to==="Tone"?"tx "+r.rT+" Hz":r.to==="TSQL"?"rx "+r.cT+" Hz":r.to==="DTCS"?"DCS "+r.dc:r.to==="Cross"?r.cr+" "+r.dc:""}</span></div>
     <div class="pu-row"><span class="pu-lbl">Mode:</span><span class="pu-val">${r.mo} · ${r.pw}</span></div>
     <div class="pu-row"><span class="pu-lbl">Area:</span><span class="pu-val">${r.area}</span></div>
   `);
+  mk.on("click", () => highlightSidebarItem(i));
   return mk;
 });
 
 // ── Sidebar ───────────────────────────────────────────────────────────────────
 const selected = new Set(CH.map((_, i) => i));
 const activeBands = new Set(["gmrs","frs","2m","70cm","other"]);
+let highlightedIdx = null;
+
+function highlightSidebarItem(i) {
+  if (highlightedIdx !== null) {
+    const prev = document.querySelector(`.channel-item[data-idx="${highlightedIdx}"]`);
+    if (prev) prev.classList.remove("map-highlighted");
+  }
+  highlightedIdx = i;
+  const el = document.querySelector(`.channel-item[data-idx="${i}"]`);
+  if (el) {
+    el.classList.add("map-highlighted");
+    el.scrollIntoView({block: "nearest", behavior: "smooth"});
+    // Expand area group if collapsed
+    const grp = el.closest(".area-group");
+    if (grp && el.style.display === "none") {
+      const hdr = grp.querySelector(".area-header");
+      if (hdr) hdr.click();
+    }
+  }
+}
 
 function refreshMarker(i) {
   const vis = activeBands.has(CH[i].band);
@@ -359,7 +382,7 @@ function buildSidebar() {
       const info = document.createElement("div");
       info.className = "ch-info";
       const toneStr = r.to === "Tone" ? `tx ${r.rT}` : r.to === "TSQL" ? `rx ${r.cT}` : r.to === "DTCS" ? `DCS ${r.dc}` : r.to === "Cross" ? `DCS ${r.dc}` : "no tone";
-      info.innerHTML = `<div class="ch-name">${r.n}</div><div class="ch-sub">${r.f.toFixed(4)} · ${toneStr}</div>`;
+      info.innerHTML = `<div class="ch-name">${r.nm || r.n}</div><div class="ch-sub">${r.n} · ${r.f.toFixed(4)} · ${toneStr}</div>`;
 
       const dot = document.createElement("div");
       dot.className = "band-dot";
